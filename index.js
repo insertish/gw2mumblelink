@@ -8,10 +8,22 @@ Object.prototype.getKey = function(value) {
 	return Object.keys(object).find(key => object[key] === value);
 };
 
-const collectWChar = (mL, attribute) => {
-	let arr = new Uint8Array(256);
+const collectWChar = (mL, attribute, size = 256) => {
+	let arr = new Uint8Array(size);
 	mL['get' + attribute](arr);
 	return textDecoder.decode(arr);
+};
+
+const collectUChar = (mL, attribute, size = 48) => {
+	let arr = new Uint8Array(size);
+	mL['get' + attribute](arr);
+	return arr;
+};
+
+const collectFloats = (mL, attribute, size = 3) => {
+	let arr = new Uint8Array(size);
+	mL['get' + attribute](arr);
+	return arr;
 };
 
 /**
@@ -60,11 +72,27 @@ class MumbleLink {
 		return collectWChar(this.mL, "Identity") != "";
 	}
 	/**
+	 * Get UI variables
+	 */
+	getUIvar() {
+		return {
+			version: this.mL.uiVersion(),
+			tick: this.mL.uiTick()
+		};
+	}
+	/**
 	 * Get the current link name.
 	 * @returns {string} Should be 'Guild Wars 2'.
 	 */
 	getName() {
 		return collectWChar(this.mL, "Name");
+	}
+	/**
+	 * Get the link description
+	 * @returns {string} A description
+	 */
+	getDescription() {
+		return collectWChar(this.mL, "Description", 2048);
 	}
 	/**
 	 * Get the character's identity.
@@ -84,6 +112,47 @@ class MumbleLink {
 		}
 		data = data.substring(0, end);
 		return JSON.parse(data);
+	}
+	/**
+	 * Get character / user / camera positions
+	 */
+	getContext() {
+		let raw = collectUChar(this.mL, "Context", this.mL.getContextLength());
+		let data = {
+			serverAddress: raw.slice(0, 28)
+		};
+		["mapId", "mapType", "shardId", "instance", "buildId"].forEach((v, i) => {
+			let temp = raw.slice(29 + (i * 4), 29 + (i * 4) + 4);
+			let num = 0;
+			temp.forEach((x, i) => {
+				num += x << temp.length - i;
+			});
+			data[v] = num;
+		});
+		return data;
+	}
+	/**
+	 * Get f* variables
+	 */
+	getFvars() {
+		return {
+			character: {
+				position: collectFloats(this.mL, "AvatarPosition"),
+				front: collectFloats(this.mL, "AvatarFront"),
+				top: collectFloats(this.mL, "AvatarTop")
+			},
+			camera: {
+				position: collectFloats(this.mL, "CameraPosition"),
+				front: collectFloats(this.mL, "CameraFront"),
+				top: collectFloats(this.mL, "CameraTop")
+			}
+		};
+	}
+	/**
+	 * Probably important.
+	 */
+	close() {
+		this.mL.close();
 	}
 }
 

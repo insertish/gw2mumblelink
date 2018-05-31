@@ -17,3 +17,7 @@ if (!mumbleLink.hasCharacterSelected()) {
 }
 
 console.log('The player is currently in-game and has selected a character!');
+let ui = mumbleLink.getUIvar();
+console.log(`UI Version: ${ui.version}, Tick: ${ui.tick}`);
+
+mumbleLink.close();

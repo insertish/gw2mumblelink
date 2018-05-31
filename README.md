@@ -25,7 +25,9 @@ console.log(identity.name); // Your character's name =)
 ## To-Do
 
 - Create documentation for module
-- Finish support for [ML struct](https://wiki.guildwars2.com/wiki/API:MumbleLink#MumbleLink_structure), this includes: f* vars, the context, desc and other variables.
+- Figure out how to handle the context properly
+- Figure out what character.front / .top and camera.front / .top are
+- ~~Finish support for [ML struct](https://wiki.guildwars2.com/wiki/API:MumbleLink#MumbleLink_structure), this includes: f* vars, the context, desc and other variables.~~
 
 ## Issues
 
