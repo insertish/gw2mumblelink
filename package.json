@@ -1,0 +1,25 @@
+{
+  "name": "gw2mumblelink",
+  "version": "1.0.0",
+  "description": "Guild Wars 2 Mumble Link integration for Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "autogypi": "autogypi",
+    "node-gyp": "node-gyp",
+    "emcc-path": "emcc-path",
+    "copyasm": "copyasm",
+    "ndts": "ndts",
+	"install": "autogypi && node-gyp configure build",
+	"rebuild": "node-gyp configure build"
+  },
+  "author": "insertish <me@insrt.uk>",
+  "license": "ISC",
+  "dependencies": {
+    "autogypi": "^0.2.2",
+    "nbind": "^0.3.15",
+    "node-gyp": "^3.6.2",
+    "text-encoding": "^0.6.4"
+  },
+  "homepage": "https://github.com/mcrocks999/gw2mumblelink"
+}
