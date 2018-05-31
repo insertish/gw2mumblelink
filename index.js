@@ -43,6 +43,23 @@ class MumbleLink {
 		return this.mL.init();
 	}
 	/**
+	 * Checks if the client is connected to GW2.
+	 * @returns {boolean} Whether it is connected or not.
+	 */
+	isGuildWars2() {
+		// I know it looks ugly, but this was the best solution.
+		// Neither .includes, /Guild Wars 2/, /Guild\wWars\w2/ or /Guild*Wars*2/ wanted to work. :/
+		return /Guild/.test(this.getName()) && /Wars/.test(this.getName()) && /2/.test(this.getName());
+	}
+	/**
+	 * Checks if the user has selected a character yet.
+	 * Needed to call getIdentity without error.
+	 * @return {boolean} Whether the user has selected a character.
+	 */
+	hasCharacterSelected() {
+		return collectWChar(this.mL, "Identity") != "";
+	}
+	/**
 	 * Get the current link name.
 	 * @returns {string} Should be 'Guild Wars 2'.
 	 */
