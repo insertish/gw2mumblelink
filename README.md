@@ -26,3 +26,7 @@ console.log(identity.name); // Your character's name =)
 
 - Create documentation for module
 - Finish support for [ML struct](https://wiki.guildwars2.com/wiki/API:MumbleLink#MumbleLink_structure), this includes: f* vars, the context, desc and other variables.
+
+## Issues
+
+- Usually works, sometimes it becomes hit or miss after a few launches, same issue occurs with GW2-Taco, restarting the application several times seems to have fixed it for some reason? (To investigate)

@@ -76,13 +76,14 @@ class MumbleLink {
 		 * Remove all whitespaces because JSON.parse dosen't like them.
 		 */
 		let end = 0;
-		for (let i=data.length-1;i>0;i--) {
-			if (data[i].charCodeAt() != 0) {
-				end = i+1;
+		for (let i=0;i<data.length;i++) {
+			if (data[i].charCodeAt() == 0) {
+				end = i;
 				break;
 			}
 		}
-		return JSON.parse(data.substring(0, end));
+		data = data.substring(0, end);
+		return JSON.parse(data);
 	}
 }
 
