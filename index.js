@@ -2,6 +2,7 @@ const TextDecoder	= require('text-encoding').TextDecoder;
 const nbind			= require('nbind');
 const textDecoder	= new TextDecoder("utf-8");
 const lib			= nbind.init(__dirname).lib;
+const spawn			= require('cross-spawn');
 
 Object.prototype.getKey = function(value) {
 	let object = this;
@@ -46,13 +47,16 @@ const collectFloats = (mL, attribute, size = 3) => {
 class MumbleLink {
 	constructor() {
 		this.mL = new lib.MumbleLink();
+		this.active = false;
 	}
 	/**
 	 * Initiates the Mumble Link.
 	 * @returns {boolean} Whether it has worked or not.
 	 */
 	init() {
-		return this.mL.init();
+		let result = this.mL.init();
+		if (result) this.active = true;
+		return result;
 	}
 	/**
 	 * Checks if the client is connected to GW2.
@@ -62,6 +66,24 @@ class MumbleLink {
 		// I know it looks ugly, but this was the best solution.
 		// Neither .includes, /Guild Wars 2/, /Guild\wWars\w2/ or /Guild*Wars*2/ wanted to work. :/
 		return /Guild/.test(this.getName()) && /Wars/.test(this.getName()) && /2/.test(this.getName());
+	}
+	/**
+	 * Check if GW2 is actually running or not.
+	 * Useful for situations where isGuildWars2() dosen't mention any closure.
+	 * @returns {Promise} Resolves if running, rejects if not.
+	 */
+	isGuildWars2Running() {
+		return new Promise((resolve, reject) => {
+			let command = 'ps';
+			if (/^win/.test(process.platform)) command = `powershell -command "& {&'${command}'}"`;
+			let child = spawn(command);
+			let collect = '';
+			child.stdout.on('data', data => collect += `${data}\n`);
+			child.on('close', () => {
+				if (collect.includes('Gw2-64')) resolve();
+				else reject();
+			});
+		});
 	}
 	/**
 	 * Checks if the user has selected a character yet.
@@ -152,7 +174,8 @@ class MumbleLink {
 	 * Probably important.
 	 */
 	close() {
-		this.mL.close();
+		if (this.active) this.mL.close();
+		this.active = false;
 	}
 }
 
