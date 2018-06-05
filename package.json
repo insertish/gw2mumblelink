@@ -1,6 +1,6 @@
 {
   "name": "gw2mumblelink",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Guild Wars 2 Mumble Link integration for Node.js",
   "main": "index.js",
   "scripts": {
@@ -22,5 +22,5 @@
     "node-gyp": "^3.6.2",
     "text-encoding": "^0.6.4"
   },
-  "homepage": "https://github.com/mcrocks999/gw2mumblelink"
+  "homepage": "https://gitlab.insrt.uk/insert/gw2mumblelink/"
 }

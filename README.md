@@ -1,4 +1,5 @@
-# Guild Wars 2 Mumble Link
+[![GW2 mumblelink](https://gitlab.insrt.uk/insert/gw2mumblelink/raw/master/res/logo.png)](https://gitlab.insrt.uk/insert/gw2mumblelink)
+
 Retrieve data from the GW2 client through the data exposed for Mumble.
 
 [![NPM](https://nodei.co/npm/gw2mumblelink.png)](https://nodei.co/npm/gw2mumblelink/)
